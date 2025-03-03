@@ -7,5 +7,5 @@ contents = path.read_text()
 # lines = contents.splitlines()
 print(contents)
 for line in contents.splitlines():
-    line.replace('python', 'c')
+    line = line.replace('python', 'c')
     print(line)
