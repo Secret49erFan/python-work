@@ -9,6 +9,6 @@ contents = path.read_text() # reading whole file
 print(contents) # Prints the whole file as is.
 print('\n') # Break.
 
-lines = contents.splitlines() # Reads the file and return list of each line of the file.
-for line in lines: # Reiterate through the list.
+# lines = contents.splitlines() # Reads the file and return list of each line of the file.
+for line in contents.splitlines(): # Reiterate through the list.
     print(line) # Print out each line of the file
