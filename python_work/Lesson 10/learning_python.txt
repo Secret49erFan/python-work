@@ -1,4 +1,4 @@
 In python you can store information in variables.
 In python you can use loops to reiterate through data.
 In python you can use functions to reuse blocks of code.
-In Python you can use classes to model real-world situations.
+In python you can use classes to model real-world situations.
