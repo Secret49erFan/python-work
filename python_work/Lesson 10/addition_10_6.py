@@ -2,14 +2,29 @@
 # chapter 10 - addition
 # addition_10_6.py
 active = True
-number_1 = 0
-number_2 = 0
 while active:
     try:
-        number_1 = int(input('What is the first number?'))
-        number_2 = int(input('What is the second number?'))
-        break
+        number_1 = input('What is the first number? Enter "quit" to exit.')
+        if number_1.lower() == 'quit':
+            active = False
+            break
+        number_1 = int(number_1)
     except ValueError:
-        print("An error has occured. Please try again")
+        print('An error has occurred in the first number. Please try again.')
+        continue
 
-print(number_1 + number_2)
+    while True:
+        try:
+            number_2 = input('What is the second number? Enter "quit" to exit.')
+            if number_2.lower() == 'quit':
+                active = False
+                break
+            number_2 = int(number_2)
+            break
+        except ValueError:
+            print('An error has occurred in the second number. Please try again.')
+    if not active:
+        break
+    
+    print(number_1 + number_2)
+    break
