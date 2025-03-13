@@ -14,18 +14,18 @@ class Die:
     Methods
     -------
     roll_die():
-        Returns a list of the number of dice rolled.
+        Returns a list of the of dice rolled.
     """
     def __init__(self, sides=6):
         self.sides = sides # initiate attributes
 
-    def roll_die(self):
-        result = r(1, self.sides) # A number between 1 and n sides.
-        return result
+    def roll_die(self, dice=5):
+        rolls = [] # create an empty list
+        for i in range(dice): # loop 5 times by default
+            rolls.append(r(1, self.sides)) # adds roll to the list
+        return rolls
 
 
 my_die = Die() # create an instance of the die class
-rolls = [] # create an empty list
-for i in range(3): # loop ten times
-    rolls.append(my_die.roll_die()) # add the result of roll to rolls
-print(rolls) # show me the rolls in the console
+results = my_die.roll_die()
+print(results) # show me the rolls in the console
