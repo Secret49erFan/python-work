@@ -17,28 +17,55 @@ class TheMatrix:
                                                self.settings.screen_height)) # Sets the width & height of the window.
         pygame.display.set_caption('The Matrix') # Just a label.
 
-        self.circle = Circle(self.settings.screen_width/2, self.settings.screen_height/2, 7, (250,250,250), self) # too much hard coded here. consider refactoring to settings.py
+        self.my_circle = Circle(self.settings.screen_width/2, self.settings.screen_height/2, 7, (250,250,250), self) # too much hard coded here. consider refactoring to settings.py
 
     def run_simulation(self):
         '''Begin the simulation.'''
         while True:
             self._check_events()
+            self.my_circle.update()
             self._update_screen()
-            self.clock.tick(24)
+            self.clock.tick(60)
 
-            # MOTION GOES HERE Consider refactoring
-            self.circle.rect.y += 1
 
     def _check_events(self):
         '''Watch for keyboard and mouse events.'''
         for event in pygame.event.get():
             if event.type == pygame.QUIT: # If the event type is QUIT then exit gracefuly.
                 sys.exit()
+            elif event.type == pygame.KEYDOWN:
+                self._check_keydown_events(event)
+            elif event.type == pygame.KEYUP:
+                self._check_keyup_events(event)
+    
+    def _check_keydown_events(self, event):
+        '''Respond to keypresses.'''
+        if event.key == pygame.K_RIGHT:
+            self.my_circle.moving_right = True
+        elif event.key == pygame.K_LEFT:
+            self.my_circle.moving_left = True
+        elif event.key == pygame.K_UP:
+            self.my_circle.moving_up = True
+        elif event.key == pygame.K_DOWN:
+            self.my_circle.moving_down = True
+        elif event.key == pygame.K_q:
+            sys.exit()
+
+    def _check_keyup_events(self, event):
+        '''Respond to keypresses'''
+        if event.key == pygame.K_RIGHT:
+            self.my_circle.moving_right = False
+        elif event.key == pygame.K_LEFT:
+            self.my_circle.moving_left = False
+        elif event.key == pygame.K_UP:
+            self.my_circle.moving_up = False
+        elif event.key == pygame.K_DOWN:
+            self.my_circle.moving_down = False
 
     def _update_screen(self):
         '''Update images on the screen to the new screen'''
         self.screen.fill(self.settings.bg_color)
-        self.circle.blitme()
+        self.my_circle.blitme()
         # Essentially refreshes the screen to display the lates drawing updates.
         pygame.display.flip()
 
