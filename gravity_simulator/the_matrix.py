@@ -35,6 +35,7 @@ class TheMatrix:
                 sys.exit()
             elif event.type == pygame.KEYDOWN:
                 self._check_keydown_events(event)
+                print(f'The {pygame.key.name(event.key)} key was pressed!')
             elif event.type == pygame.KEYUP:
                 self._check_keyup_events(event)
     
