@@ -14,9 +14,6 @@ class Circle:
         self.image = pygame.Surface((radius * 2, radius * 2), pygame.SRCALPHA)
         self.rect = self.image.get_rect(center=(x, y)) 
         
-        # Draw circle to the new surface.
-        pygame.draw.circle(self.image, color, (self.radius, self.radius), self.radius)
-
         # Store a float for the circle's exact horizontal position.
         self.x = float(self.rect.x)
         self.y = float(self.rect.y)
@@ -47,10 +44,15 @@ class Circle:
             self.rect.bottom = self.screen_rect.bottom
             self.y = self.rect.y
 
-        # Update rect object from self.x
+        # Update rect object from self.x and self.y
         self.rect.x = self.x
         self.rect.y = self.y
 
+    def draw_circle(self):
+        '''Draw a circle '''
+        pygame.draw.circle(self.image, self.color, (self.radius, self.radius), self.radius)
+    
     def blitme(self):
-        '''Draw circle'''
+        '''Blit circle to the sim.'''
+        self.draw_circle()
         self.screen.blit(self.image, self.rect)

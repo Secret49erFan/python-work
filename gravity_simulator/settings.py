@@ -8,5 +8,9 @@ class Settings:
         self.screen_height = 800
         self.bg_color = (0,5,0) # Deep green color.
 
-        self.gravity = 9.8
-        self.movement = 20
+        self.gravity = 0
+        self.movement = 7
+
+        # Default circle settings
+        self.cir_color = (250,250,250)
+        self.cir_radius = 7

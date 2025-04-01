@@ -15,10 +15,17 @@ class TheMatrix:
         self.settings = Settings() # Create a settings class to manage settings.
         self.screen = pygame.display.set_mode((self.settings.screen_width,
                                                self.settings.screen_height)) # Sets the width & height of the window.
-        pygame.display.set_caption('The Matrix') # Just a label.
+        self.rect = self.screen.get_rect()
+        # Just a label.
+        pygame.display.set_caption('The Matrix')
 
-        self.my_circle = Circle(self.settings.screen_width/2, self.settings.screen_height/2, 7, (250,250,250), self) # too much hard coded here. consider refactoring to settings.py
-
+        # Initiate a circle on screen
+        self.my_circle = Circle(self.rect.centerx,
+                                self.rect.centery,
+                                self.settings.cir_radius,
+                                self.settings.cir_color,
+                                self)
+    
     def run_simulation(self):
         '''Begin the simulation.'''
         while True:
@@ -35,7 +42,7 @@ class TheMatrix:
                 sys.exit()
             elif event.type == pygame.KEYDOWN:
                 self._check_keydown_events(event)
-                print(f'The {pygame.key.name(event.key)} key was pressed!')
+#                print(f'The {pygame.key.name(event.key)} key was pressed!')
             elif event.type == pygame.KEYUP:
                 self._check_keyup_events(event)
     
