@@ -20,19 +20,21 @@ class TheMatrix:
         pygame.display.set_caption('The Matrix')
 
         # Initiate a circle on screen
-        self.my_circle = Circle(self.rect.centerx,
+        self.main_circle = Circle(self.rect.centerx,
                                 self.rect.centery,
                                 self.settings.cir_radius,
                                 self.settings.cir_color,
                                 self)
+        self.grid_circles = pygame.sprite.Group()
+        self._create_grid()
     
     def run_simulation(self):
         '''Begin the simulation.'''
         while True:
             self._check_events()
-            self.my_circle.update()
+            self.main_circle.update()
             self._update_screen()
-            self.clock.tick(60)
+            self.clock.tick(self.settings.fps)
 
 
     def _check_events(self):
@@ -49,31 +51,67 @@ class TheMatrix:
     def _check_keydown_events(self, event):
         '''Respond to keypresses.'''
         if event.key == pygame.K_RIGHT:
-            self.my_circle.moving_right = True
+            self.main_circle.moving_right = True
         elif event.key == pygame.K_LEFT:
-            self.my_circle.moving_left = True
+            self.main_circle.moving_left = True
         elif event.key == pygame.K_UP:
-            self.my_circle.moving_up = True
+            self.main_circle.moving_up = True
         elif event.key == pygame.K_DOWN:
-            self.my_circle.moving_down = True
+            self.main_circle.moving_down = True
         elif event.key == pygame.K_q:
             sys.exit()
 
     def _check_keyup_events(self, event):
         '''Respond to keypresses'''
         if event.key == pygame.K_RIGHT:
-            self.my_circle.moving_right = False
+            self.main_circle.moving_right = False
         elif event.key == pygame.K_LEFT:
-            self.my_circle.moving_left = False
+            self.main_circle.moving_left = False
         elif event.key == pygame.K_UP:
-            self.my_circle.moving_up = False
+            self.main_circle.moving_up = False
         elif event.key == pygame.K_DOWN:
-            self.my_circle.moving_down = False
+            self.main_circle.moving_down = False
+
+    def _create_grid(self):
+        '''Create the grid of cicles.'''
+        # Create a circle and keep adding circles until there's no room left.
+        # Spacing between circles in ten circle widths and ten circle heights.
+        grid_circle = Circle(self.settings.grid_cir_radius*self.settings.grid_padding,
+                             self.settings.grid_cir_radius*self.settings.grid_padding,
+                             self.settings.grid_cir_radius,
+                             self.settings.grid_cir_color,
+                             self)
+        circle_width, circle_height = grid_circle.rect.size
+        current_x, current_y = circle_width, circle_height
+        while current_y < (self.settings.screen_height - self.settings.grid_padding * circle_height):
+            while current_x < (self.settings.screen_width - self.settings.grid_padding * circle_width):
+                self._create_circle_for_grid(current_x, current_y)
+                current_x += self.settings.grid_padding * circle_width
+
+            # Finish a row; reset x value and increment y value.
+            current_x = circle_width
+            current_y += self.settings.grid_padding * circle_height
+
+    
+    def _create_circle_for_grid(self, x_position, y_position):
+        '''Create a circle and place it in grid.'''
+        new_circle = Circle(x_position,
+                            y_position,
+                            self.settings.grid_cir_radius,
+                            self.settings.grid_cir_color,
+                            self)
+        new_circle.x = x_position
+        new_circle.y = y_position
+        new_circle.rect.x = x_position
+        new_circle.rect.y = y_position
+        self.grid_circles.add(new_circle)
+        
 
     def _update_screen(self):
         '''Update images on the screen to the new screen'''
         self.screen.fill(self.settings.bg_color)
-        self.my_circle.blitme()
+        self.grid_circles.draw(self.screen)
+        self.main_circle.blitme()
         # Essentially refreshes the screen to display the lates drawing updates.
         pygame.display.flip()
 

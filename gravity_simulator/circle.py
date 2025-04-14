@@ -1,14 +1,14 @@
 import pygame
+from pygame.sprite import Sprite
 
-class Circle:
+class Circle(Sprite):
     '''Simple class to define a circle.'''
     def __init__(self, x, y, radius, color, the_sim):
         '''Initiate pygame and circle attributes.'''
+        super().__init__()
         self.screen = the_sim.screen
         self.settings = the_sim.settings
         self.screen_rect = the_sim.screen.get_rect()
-        self.x = x
-        self.y = y
         self.radius = radius
         self.color = color
         self.image = pygame.Surface((radius * 2, radius * 2), pygame.SRCALPHA)
@@ -23,6 +23,9 @@ class Circle:
         self.moving_left = False
         self.moving_up = False
         self.moving_down = False
+        
+        # Draw the circle to the screen.
+        pygame.draw.circle(self.image, self.color, (self.radius, self.radius), self.radius)
 
     def update(self):
         '''Update the circle's position based on movement flags.'''
@@ -48,11 +51,7 @@ class Circle:
         self.rect.x = self.x
         self.rect.y = self.y
 
-    def draw_circle(self):
-        '''Draw a circle '''
-        pygame.draw.circle(self.image, self.color, (self.radius, self.radius), self.radius)
     
     def blitme(self):
         '''Blit circle to the sim.'''
-        self.draw_circle()
         self.screen.blit(self.image, self.rect)
