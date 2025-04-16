@@ -2,6 +2,8 @@ import sys
 
 import pygame
 
+from random import randint as r
+
 from settings import Settings
 from circle import Circle
 
@@ -58,6 +60,8 @@ class TheMatrix:
             self.main_circle.moving_up = True
         elif event.key == pygame.K_DOWN:
             self.main_circle.moving_down = True
+        elif event.key == pygame.K_p:
+            self.main_circle.toggle_physics_flag()
         elif event.key == pygame.K_q:
             sys.exit()
 
@@ -85,7 +89,10 @@ class TheMatrix:
         current_x, current_y = circle_width, circle_height
         while current_y < (self.settings.screen_height - self.settings.grid_padding * circle_height):
             while current_x < (self.settings.screen_width - self.settings.grid_padding * circle_width):
-                self._create_circle_for_grid(current_x, current_y)
+                self._create_circle_for_grid(current_x+r(-self.settings.jitter,
+                                                          self.settings.jitter),
+                                             current_y+r(-self.settings.jitter,
+                                                          self.settings.jitter))
                 current_x += self.settings.grid_padding * circle_width
 
             # Finish a row; reset x value and increment y value.

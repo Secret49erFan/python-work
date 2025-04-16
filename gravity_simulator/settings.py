@@ -9,7 +9,9 @@ class Settings:
         self.bg_color = (0,5,0) # Deep green color.
         self.fps = 60
 
-        self.gravity = 0
+        self.gravity = 9.8
+        self.velocity = 0
+        self.terminal_velocity = 35
         self.movement = 7
 
         # Main circle settings
@@ -20,3 +22,4 @@ class Settings:
         self.grid_cir_color = (0,190,19)
         self.grid_cir_radius = 4
         self.grid_padding = 7
+        self.jitter = 7

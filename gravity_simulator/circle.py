@@ -1,4 +1,5 @@
 import pygame
+
 from pygame.sprite import Sprite
 
 class Circle(Sprite):
@@ -23,10 +24,17 @@ class Circle(Sprite):
         self.moving_left = False
         self.moving_up = False
         self.moving_down = False
+
+        # Toggle physics.
+        self.physics = False
+        self.y_velocity = self.settings.velocity
         
         # Draw the circle to the screen.
         pygame.draw.circle(self.image, self.color, (self.radius, self.radius), self.radius)
 
+    def toggle_physics_flag(self):
+        self.physics = not self.physics
+    
     def update(self):
         '''Update the circle's position based on movement flags.'''
         # Update the circle's x value not the rect.
@@ -40,7 +48,13 @@ class Circle(Sprite):
             self.y += self.settings.movement
         
         # Sim the gravity
-        self.y += self.settings.gravity
+        if self.physics:
+            self.y_velocity += self.settings.gravity
+            # Cap velocity at terminal velocity
+            if self.y_velocity > self.settings.terminal_velocity:
+                self.y_velocity = self.settings.terminal_velocity
+
+            self.y += self.y_velocity/self.settings.fps
         
         # Prevent the circle from going below the bottom of the screen
         if self.rect.bottom > self.screen_rect.bottom:
@@ -50,7 +64,6 @@ class Circle(Sprite):
         # Update rect object from self.x and self.y
         self.rect.x = self.x
         self.rect.y = self.y
-
     
     def blitme(self):
         '''Blit circle to the sim.'''
