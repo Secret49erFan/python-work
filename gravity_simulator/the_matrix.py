@@ -35,6 +35,7 @@ class TheMatrix:
         while True:
             self._check_events()
             self.main_circle.update()
+            self.grid_circles.update()
             self._update_screen()
             self.clock.tick(self.settings.fps)
 
@@ -62,6 +63,8 @@ class TheMatrix:
             self.main_circle.moving_down = True
         elif event.key == pygame.K_p:
             self.main_circle.toggle_physics_flag()
+            for circle in self.grid_circles:
+                circle.toggle_physics_flag()
         elif event.key == pygame.K_q:
             sys.exit()
 
