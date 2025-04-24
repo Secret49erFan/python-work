@@ -35,7 +35,7 @@ class Circle(Sprite):
     def toggle_physics_flag(self):
         self.physics = not self.physics
     
-    def update(self):
+    def update(self, circles):
         '''Update the circle's position based on movement flags.'''
         # Update the circle's x value not the rect.
         if self.moving_right and self.rect.right < self.screen_rect.right:
@@ -55,6 +55,9 @@ class Circle(Sprite):
                 self.y_velocity = self.settings.terminal_velocity
 
             self.y += self.y_velocity/self.settings.fps
+
+        # Check for collison and stacking
+        self._check_collision(circles)
         
         # Prevent the circle from going below the bottom of the screen
         if self.rect.bottom > self.screen_rect.bottom:
@@ -64,6 +67,16 @@ class Circle(Sprite):
         # Update rect object from self.x and self.y
         self.rect.x = self.x
         self.rect.y = self.y
+
+    def _check_collision(self, circles):
+        '''Prevent overlap and stack circles properly.'''
+        for circle in circles:
+            if circle != self and self.rect.colliderect(circle.rect):
+                if self.y_velocity > 0:  # If falling downward
+                    self.rect.bottom = circle.rect.top  # Snap to correct position
+                    self.y = self.rect.y
+                    self.y_velocity = 0  # Stop movement
+                    self.physics = False  # Lock in place
     
     def blitme(self):
         '''Blit circle to the sim.'''
