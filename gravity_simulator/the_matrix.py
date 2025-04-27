@@ -90,7 +90,11 @@ class TheMatrix:
                 # Create a new circle and place it in the grid
                 x_position = current_x + r(-self.settings.jitter, self.settings.jitter)
                 y_position = current_y + r(-self.settings.jitter, self.settings.jitter)
-                new_circle = Circle(x_position, y_position, self.settings.grid_cir_radius, self.settings.grid_cir_color, self)
+                new_circle = Circle(x_position,
+                                    y_position,
+                                    self.settings.grid_cir_radius,
+                                    self.settings.grid_cir_color,
+                                    self)
                 new_circle.x = x_position
                 new_circle.y = y_position
                 new_circle.rect.x = x_position
