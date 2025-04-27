@@ -34,8 +34,8 @@ class TheMatrix:
         '''Begin the simulation.'''
         while True:
             self._check_events()
-            self.main_circle.update(self.grid_circles)
-            self.grid_circles.update(self.grid_circles)
+            self.main_circle.update()
+            self.grid_circles.update()
             self._update_screen()
             self.clock.tick(self.settings.fps)
 

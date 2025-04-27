@@ -35,7 +35,7 @@ class Circle(Sprite):
     def toggle_physics_flag(self):
         self.physics = not self.physics
     
-    def update(self, circles):
+    def update(self):
         '''Update the circle's position based on movement flags.'''
         # Update the circle's x value not the rect.
         if self.moving_right and self.rect.right < self.screen_rect.right:
@@ -44,11 +44,11 @@ class Circle(Sprite):
             self.x -= self.settings.movement
         if self.moving_up and self.rect.top > 0:
             self.y -= self.settings.movement
-        if self.moving_down and self.rect.bottom < self.screen_rect.bottom:
+        if self.moving_down:
             self.y += self.settings.movement
         
         # Sim the gravity
-        if self.physics:
+        if self.physics and not self.moving_down:
             self.y_velocity += self.settings.gravity
             # Cap velocity at terminal velocity
             if self.y_velocity > self.settings.terminal_velocity:
@@ -56,27 +56,26 @@ class Circle(Sprite):
 
             self.y += self.y_velocity/self.settings.fps
 
-        # Check for collison and stacking
-        self._check_collision(circles)
+        # Check for off-screen movement
+        self._move_cir_to_top(self.settings.screen_height)
         
         # Prevent the circle from going below the bottom of the screen
-        if self.rect.bottom > self.screen_rect.bottom:
-            self.rect.bottom = self.screen_rect.bottom
-            self.y = self.rect.y
+#        if self.rect.bottom > self.screen_rect.bottom:
+#            self.rect.bottom = self.screen_rect.bottom
+#            self.y = self.rect.y
 
         # Update rect object from self.x and self.y
         self.rect.x = self.x
         self.rect.y = self.y
 
-    def _check_collision(self, circles):
-        '''Prevent overlap and stack circles properly.'''
-        for circle in circles:
-            if circle != self and self.rect.colliderect(circle.rect):
-                if self.y_velocity > 0:  # If falling downward
-                    self.rect.bottom = circle.rect.top  # Snap to correct position
-                    self.y = self.rect.y
-                    self.y_velocity = 0  # Stop movement
-                    self.physics = False  # Lock in place
+    def _move_cir_to_top(self, screen_height):
+        '''Moves the circle above the screen if it goes below the screen.'''
+        if self.rect.top > screen_height:
+            # Move circle to above the screen
+            self.rect.bottom = 0
+            self.y = self.rect.y
+            self.y_velocity = 0
+            self.physics = True
     
     def blitme(self):
         '''Blit circle to the sim.'''
