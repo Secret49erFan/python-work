@@ -47,7 +47,6 @@ class TheMatrix:
                 sys.exit()
             elif event.type == pygame.KEYDOWN:
                 self._check_keydown_events(event)
-#                print(f'The {pygame.key.name(event.key)} key was pressed!')
             elif event.type == pygame.KEYUP:
                 self._check_keyup_events(event)
     
@@ -80,42 +79,32 @@ class TheMatrix:
             self.main_circle.moving_down = False
 
     def _create_grid(self):
-        '''Create the grid of cicles.'''
-        # Create a circle and keep adding circles until there's no room left.
-        # Spacing between circles in ten circle widths and ten circle heights.
-        grid_circle = Circle(self.settings.grid_cir_radius*self.settings.grid_padding,
-                             self.settings.grid_cir_radius*self.settings.grid_padding,
-                             self.settings.grid_cir_radius,
-                             self.settings.grid_cir_color,
-                             self)
-        circle_width, circle_height = grid_circle.rect.size
+        '''Create a grid of circles in a single function.'''
+        # Determine spacing between circles
+        circle_width = self.settings.grid_cir_radius * 2
+        circle_height = self.settings.grid_cir_radius * 2
         current_x, current_y = circle_width, circle_height
+
         while current_y < (self.settings.screen_height - self.settings.grid_padding * circle_height):
             while current_x < (self.settings.screen_width - self.settings.grid_padding * circle_width):
-                self._create_circle_for_grid(current_x+r(-self.settings.jitter,
-                                                          self.settings.jitter),
-                                             current_y+r(-self.settings.jitter,
-                                                          self.settings.jitter))
+                # Create a new circle and place it in the grid
+                x_position = current_x + r(-self.settings.jitter, self.settings.jitter)
+                y_position = current_y + r(-self.settings.jitter, self.settings.jitter)
+                new_circle = Circle(x_position, y_position, self.settings.grid_cir_radius, self.settings.grid_cir_color, self)
+                new_circle.x = x_position
+                new_circle.y = y_position
+                new_circle.rect.x = x_position
+                new_circle.rect.y = y_position
+
+                # Add the circle to the grid
+                self.grid_circles.add(new_circle)
+            
+                # Move to the next column
                 current_x += self.settings.grid_padding * circle_width
 
-            # Finish a row; reset x value and increment y value.
+            # Reset x position and move to the next row
             current_x = circle_width
             current_y += self.settings.grid_padding * circle_height
-
-    
-    def _create_circle_for_grid(self, x_position, y_position):
-        '''Create a circle and place it in grid.'''
-        new_circle = Circle(x_position,
-                            y_position,
-                            self.settings.grid_cir_radius,
-                            self.settings.grid_cir_color,
-                            self)
-        new_circle.x = x_position
-        new_circle.y = y_position
-        new_circle.rect.x = x_position
-        new_circle.rect.y = y_position
-        self.grid_circles.add(new_circle)
-        
 
     def _update_screen(self):
         '''Update images on the screen to the new screen'''
