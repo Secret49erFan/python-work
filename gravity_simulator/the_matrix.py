@@ -8,7 +8,7 @@ from settings import Settings
 from circle import Circle
 
 class TheMatrix:
-    '''A space where gravity will be simulated.'''
+    '''A space where reality will be simulated.'''
 
     def __init__(self):
         '''Initialize the matrix and create The One.'''
@@ -36,9 +36,9 @@ class TheMatrix:
             self._check_events()
             self.main_circle.update()
             self.grid_circles.update()
+            self._check_collisions() # Between the main circle and grid circles
             self._update_screen()
             self.clock.tick(self.settings.fps)
-
 
     def _check_events(self):
         '''Watch for keyboard and mouse events.'''
@@ -60,12 +60,7 @@ class TheMatrix:
             self.main_circle.moving_up = True
         elif event.key == pygame.K_DOWN:
             self.main_circle.moving_down = True
-        elif event.key == pygame.K_p:
-            self.main_circle.toggle_physics_flag()
-            for circle in self.grid_circles:
-                circle.toggle_physics_flag()
-        elif event.key == pygame.K_q:
-            sys.exit()
+        
 
     def _check_keyup_events(self, event):
         '''Respond to keypresses'''
@@ -77,6 +72,12 @@ class TheMatrix:
             self.main_circle.moving_up = False
         elif event.key == pygame.K_DOWN:
             self.main_circle.moving_down = False
+        elif event.key == pygame.K_p:
+            self.main_circle.toggle_physics_flag()
+            for circle in self.grid_circles:
+                circle.toggle_physics_flag()
+        elif event.key == pygame.K_q:
+            sys.exit()
 
     def _create_grid(self):
         '''Create a grid of circles in a single function.'''
@@ -109,6 +110,18 @@ class TheMatrix:
             # Reset x position and move to the next row
             current_x = circle_width
             current_y += self.settings.grid_padding * circle_height
+
+    def _check_collisions(self):
+        '''Check for collisions between the main circle and grid circles.'''
+        # Check for collisions with the main circle and grid circles
+        collisions = pygame.sprite.spritecollide(self.main_circle, self.grid_circles, False)
+        if collisions:
+            for circle in collisions:
+                self._handle_collision(circle)
+                
+    def _handle_collision(self, circle):
+        '''Handle the collision between the main circle and grid circles.'''
+        self.grid_circles.remove(circle)
 
     def _update_screen(self):
         '''Update images on the screen to the new screen'''
