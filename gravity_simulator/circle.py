@@ -102,11 +102,9 @@ class Circle(Sprite):
 
     def _update_visuals(self):
         '''Update the circle's visuals.'''
-        # Check if the circle needs to be redrawn
-        if self.needs_redraw:
-            # Redraw the circle
-            self._draw_circle()
-            self.needs_redraw = False
+        # Redraw the circle
+        self._draw_circle()
+        self.needs_redraw = False
     
     def blitme(self):
         '''Blit circle to the sim.'''
