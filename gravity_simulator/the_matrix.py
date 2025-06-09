@@ -2,10 +2,9 @@ import sys
 
 import pygame
 
-from random import randint as r
-
 from settings import Settings
 from circle import Circle
+from create_circle_grid import CreateCircleGrid
 
 class TheMatrix:
     '''A space where reality will be simulated.'''
@@ -28,7 +27,8 @@ class TheMatrix:
                                 self.settings.cir_color,
                                 self)
         self.grid_circles = pygame.sprite.Group()
-        self._create_grid()
+        my_grid = CreateCircleGrid(self)
+        my_grid.create_grid(self.grid_circles)
     
     def run_simulation(self):
         '''Begin the simulation.'''
@@ -78,38 +78,6 @@ class TheMatrix:
                 circle.toggle_physics_flag()
         elif event.key == pygame.K_q:
             sys.exit()
-
-    def _create_grid(self):
-        '''Create a grid of circles in a single function.'''
-        # Determine spacing between circles
-        circle_width = self.settings.grid_cir_radius * 2
-        circle_height = self.settings.grid_cir_radius * 2
-        current_x, current_y = circle_width, circle_height
-
-        while current_y < (self.settings.screen_height - self.settings.grid_padding * circle_height):
-            while current_x < (self.settings.screen_width - self.settings.grid_padding * circle_width):
-                # Create a new circle and place it in the grid
-                x_position = current_x + r(-self.settings.jitter, self.settings.jitter)
-                y_position = current_y + r(-self.settings.jitter, self.settings.jitter)
-                new_circle = Circle(x_position,
-                                    y_position,
-                                    self.settings.grid_cir_radius,
-                                    self.settings.grid_cir_color,
-                                    self)
-                new_circle.x = x_position
-                new_circle.y = y_position
-                new_circle.rect.x = x_position
-                new_circle.rect.y = y_position
-
-                # Add the circle to the grid
-                self.grid_circles.add(new_circle)
-            
-                # Move to the next column
-                current_x += self.settings.grid_padding * circle_width
-
-            # Reset x position and move to the next row
-            current_x = circle_width
-            current_y += self.settings.grid_padding * circle_height
 
     def _check_collisions(self):
         '''Check for collisions between the main circle and grid circles.'''
