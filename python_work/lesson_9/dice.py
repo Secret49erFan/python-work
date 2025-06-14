@@ -19,7 +19,8 @@ class Die:
     def __init__(self, sides=6):
         self.sides = sides # initiate attributes
 
-    def roll_die(self, dice=5):
+    def roll(self, dice=5):
+        # Default five dice rolls.
         rolls = [] # create an empty list
         for i in range(dice): # loop 5 times by default
             rolls.append(r(1, self.sides)) # adds roll to the list
@@ -27,5 +28,5 @@ class Die:
 
 
 my_die = Die() # create an instance of the die class
-results = my_die.roll_die()
+results = my_die.roll()
 print(results) # show me the rolls in the console
