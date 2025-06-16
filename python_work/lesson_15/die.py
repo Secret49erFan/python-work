@@ -7,9 +7,10 @@ class Die:
         # Default: six-sided die.
         self.sides = sides
 
-    def roll(self, dice=5):
-        '''Default five dice rolls.'''
+    def roll(self, frequency=1):
+        '''Rolls the dice once by default.'''
         rolls = [] # create an empty list
-        for i in range(dice): # loop 5 times by default
-            rolls.append(r(1, self.sides)) # adds roll to the list
+        for i in range(frequency):
+            # adds roll to the list
+            rolls.append(r(1, self.sides))
         return rolls

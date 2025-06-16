@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 
+
 from random_walk import RandomWalk
 
 while True:
@@ -35,7 +36,7 @@ while True:
     ax.get_xaxis().set_visible(False)
     ax.get_yaxis().set_visible(False)
 
-    plt.show()
+    # plt.show()
 
     keep_running = input('Press any key for another walk or "q" to quit:')
     if keep_running ==  'q':
