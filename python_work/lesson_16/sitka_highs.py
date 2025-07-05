@@ -4,6 +4,16 @@ from datetime import datetime
 
 import matplotlib.pyplot as plt
 
+def _get_indices():
+    for index, column_header in enumerate(header_row):
+        print(index, column_header)
+
+def _header_check(header_row, header):
+    try:
+        return header_row.index(header)
+    except ValueError:
+        print(f'{header} not in list!')
+
 path = Path('python_work/lesson_16/weather_data/sitka_weather_2021_simple.csv')
 lines = path.read_text(encoding='utf-8').splitlines()
 
@@ -18,10 +28,6 @@ tmax_index = indices.get('TMAX')
 tmin_index = indices.get('TMIN')
 name_index = indices.get('NAME')
 date_index = indices.get('DATE')
-
-def get_indices():
-    for index, column_header in enumerate(header_row):
-        print(index, column_header)
 
 # Extract dates and high temperatures.
 dates, highs, lows = [], [], []
