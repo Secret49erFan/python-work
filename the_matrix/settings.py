@@ -7,7 +7,7 @@ class Settings:
         self.screen_width = 1200
         self.screen_height = 800
         self.bg_color = (0,5,0) # Deep green color.
-        self.fps = 60
+        self.fps = 30
 
         # Physics settings
         self.gravity = 9.8
