@@ -40,9 +40,10 @@ class Chain:
     '''A class to create a chain of characters'''
     def __init__(self):
         '''Initiate the chain attributes'''
-        self.length_of_chain = self.settings.chain_length
+        # This will be random after testing rendering.
+        self.length_of_chain = 7
         self.droplets = pygame.sprite.Group()
         # This will be random after testing rendering.
         self.x_pos = 600
         # This will be above the screen after testing rendering.
-        self.base_y_pos = 400        
+        self.base_y_pos = 400
