@@ -24,9 +24,3 @@ class Settings:
         self.grid_cir_radius = 4
         self.grid_padding = 7
         self.jitter = 25
-
-        
-        # Terminal settings.
-        self.terminal_screen_size = (1200,800)
-        self.char_font_size = 18
-        self.char_font_color = (0, 255, 0)

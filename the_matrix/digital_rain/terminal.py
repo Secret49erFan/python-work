@@ -2,8 +2,8 @@ import sys
 
 import pygame
 
-from digital_rain import Droplet
-from settings import Settings
+from chain import Chain
+from terminal_settings import Settings
 
 class Terminal:
     '''Class to define a "Matrix" terminal.'''
@@ -14,12 +14,15 @@ class Terminal:
         self.clock = pygame.time.Clock()
         self.settings = Settings()
         self.screen = pygame.display.set_mode(self.settings.terminal_screen_size) # Set resolution.
+        # Get a rectangle of the screen itself.
         self.rect = self.screen.get_rect()
-        pygame.display.set_caption('Matrix Terminal') # Change title.
+        pygame.display.set_caption('Matrix Terminal') # Set a window title.
+        # Create a group of chain instances.
+        # What: Call Chain()
+        # How: 7 times with range(0-6)
+        # When: (NA) Always
+        self.chains = [Chain(self) for _ in range(self.settings.num_of_chains)]
         
-        # Create a Droplet class
-        self.drop = Droplet(self)
-
     def view_simulation(self):
         '''Main loop for the rain.'''
         while True:
@@ -31,12 +34,13 @@ class Terminal:
             # Fill the screen with color to wipe away last frame.
             self.screen.fill('black')
             
-            # Render character to screen.
-            self.drop._render_char((600,400))
-
+            # Render chains to screen.
+            for chain in self.chains:
+                chain.update()
+           
             # Make the most recently drawn screen visible.
             pygame.display.flip()
-            self.clock.tick(60)
+            self.clock.tick(self.settings.fps)
 
 if __name__ == '__main__':
 # Make a game instance, and run the game.
