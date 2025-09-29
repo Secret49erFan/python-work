@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Blogs App</title>
+</head>
+<body>
+<p>
+  <a href="{% url 'blogs:index' %}">Blogs!</a> | <a href="{% url 'blogs:blogs' %}">All Blogs<a/>
+</p>
+  {% block content %}{% endblock content %}
+</body>
+</html>
