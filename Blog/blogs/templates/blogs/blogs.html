@@ -1,17 +1,20 @@
 {% extends 'blogs/base.html' %}
 
-{% block content %}
-<p>All Available Blogs</p>
+{% block page_header %}
+    <h1>Topics</h1>
+{% endblock page_header %}
 
-<ul>
+{% block content %}
+
+<ul class="list-group border-bottom pb-2 mb-4">
     {% for blog in blogs %}
-        <li>
+        <li class="List-group-item border-0">
             <a href="{% url 'blogs:blog' blog.slug %}">
                 {{ blog.blog_name }} - {{ blog.blog_author }}
             </a>
         </li>
     {% empty %}
-        <li>
+        <li class="list-group-item border-0">
             No blogs have been added yet.
         </li>
     {% endfor %}
